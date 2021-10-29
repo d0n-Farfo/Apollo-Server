@@ -1,4 +1,12 @@
-const {ApolloServer, gql} = require("apollo-server")
+const {ApolloServer, gql} = require("apollo-server");
+//const { VariablesAreInputTypesRule } = require("graphql");
+// const mongoose = require('mongoose');
+
+// require('dotenv').config({path: 'variables.env'});
+
+// mongoose.connect(process.env.MONGO_URI)
+//         .then(() => console.log('db is connected'))
+//         .catch(err => console.erroe(err));
 
 const blogs = [
     {
@@ -28,13 +36,28 @@ const schemas = gql`
         title: String!
         creator: String!
         date: String
-        #comment: String!
+        comment: String!
     },
-
     
     type Query {
         blogs: [Blog]
         blog(title: String!): Blog
+    }
+
+    type Creator {
+        creator: String!,
+    }
+
+    type Comment {
+        comment: String!
+    }
+
+    type Mutation{
+        CreateBlog(
+            title: String!,
+            creator: String!,
+            
+        )
     }
 `;
 
@@ -44,7 +67,19 @@ const blogresolvers = {
         blog: (parent, args) => blogs.find(blog.title = args.title)
     },
 
-    //Mutation{}
+    Mutation:{
+        CreateBlog(parent, args ) {
+            const {title, creator, date} = args
+        },
+
+        DeleteBlog(parent, args ) {
+            const {title, creator, date} = args
+        },
+
+        UpdateBlog(parent, args ) {
+            const {title, creator, date} = args
+        }
+    }
 }
 
 
